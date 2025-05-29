@@ -83,8 +83,6 @@ for link in resultados:
 
 * Automatizar búsquedas diarias.
 
-* Manejo de paginación y múltiples páginas de resultados.
-
 ## 📝 Licencia
 Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE] para más detalles.
 
