@@ -36,7 +36,7 @@ pip-selfcheck.json
 
 # Jupyter Notebook
 .ipynb_checkpoints
-.ipynb
+*.ipynb
 
 # PyInstaller
 # Archivos creados al empaquetar el proyecto
