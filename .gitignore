@@ -1,0 +1,126 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribución / empaquetado
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Entornos virtuales
+env/
+venv/
+ENV/
+VENV/
+.venv/
+.env/
+pip-selfcheck.json
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyInstaller
+# Archivos creados al empaquetar el proyecto
+*.manifest
+*.spec
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+cython_debug/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# VSCode (otras posibles configuraciones)
+.history/
+*.code-workspace
+
+# Testeo
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.cache/
+.pytest_cache/
+
+# Logs
+*.log
+*.log.*
+
+# Archivos de base de datos local
+*.sqlite3
+*.db
+*.db-journal
+
+# Archivos temporales del sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# Archivos de lock
+Pipfile.lock
+poetry.lock
+
+# Archivos de configuración sensible
+.env
+.env.*
+
+# Archivos JSON generados automáticamente
+*.json
+
+# Archivos Markdown generados automáticamente
+*.md
+
+# Archivos CSV o Excel temporales
+*.csv
+*.xlsx
+*.xls
+
+# Otros temporales
+*.bak
+*.tmp
+*.swp
+*.swo
+*.orig
+
+# GitHub Codespaces
+.devcontainer/
