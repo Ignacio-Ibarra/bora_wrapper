@@ -1,6 +1,14 @@
 from bora.core import BORA
 from typing import Callable
 from requests import RequestException
+import json
+
+
+def inject_page(page:int, key:str, json_string:str):
+    x_dict =  json.loads(json_string)
+    x_dict[key] = page
+    return json.dumps(x_dict)
+
 
 class BusquedaAvanzadaSeccion(BORA):
     def __init__(
@@ -21,14 +29,35 @@ class BusquedaAvanzadaSeccion(BORA):
             cookies_session_url=f"/busquedaAvanzada/{self.seccion}"
         )
 
-    def get_result(self):
+    def get_result(self, pagina=1, resultados_acumulados=None):
+        if resultados_acumulados is None:
+            resultados_acumulados = []
+
         try:
+            # Actualizamos el payload con la página actual
+            self.data_payload['params'] = inject_page(page=pagina, key='numeroPagina', json_string=self.data_payload['params'])
+                       
+
             response = self.make_request(
                 method=self.method,
                 data_payload=self.data_payload,
                 kwargs=self.request_kwargs
             )
-            return self.parse_response(response=response, response_parser_func=self.response_parser_func)
+
+            # Parseamos resultados y los acumulamos
+            resultados = self.parse_response(response=response, response_parser_func=self.response_parser_func)
+            resultados_acumulados.extend(resultados)
+
+            # Verificamos si hay más páginas
+            content = response.json().get("content", {})
+            html = content.get("html", "")
+            sig_pag = content.get("sig_pag", None)
+
+            if html.strip() != "" and sig_pag:
+                return self.get_result(pagina=sig_pag, resultados_acumulados=resultados_acumulados)
+            else:
+                return resultados_acumulados
+
         except RequestException as e:
-            print(f"[ERROR] Falló la petición: {e}")
-            return []
+            print(f"[ERROR] Falló la petición en la página {pagina}: {e}")
+            return resultados_acumulados
