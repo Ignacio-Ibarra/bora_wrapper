@@ -1,8 +1,8 @@
 # 📰 `bora_wrapper`: Scraper del Boletín Oficial de la República Argentina
 
 Este proyecto permite consultar y extraer enlaces del Boletín Oficial de la República Argentina (BORA),
- específicamente de la sección de contrataciones (Segunda Sección). 
- Utiliza técnicas de scraping para automatizar búsquedas avanzadas en el sitio oficial.
+específicamente de la Segunda Sección (Sociedades y Avisos Judiciales). 
+Utiliza técnicas de scraping para automatizar búsquedas avanzadas en el sitio oficial.
 
 ## 🚀 Características
 
