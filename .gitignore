@@ -34,8 +34,9 @@ VENV/
 .env/
 pip-selfcheck.json
 
-# Jupyter Notebook checkpoints
+# Jupyter Notebook
 .ipynb_checkpoints
+.ipynb
 
 # PyInstaller
 # Archivos creados al empaquetar el proyecto
