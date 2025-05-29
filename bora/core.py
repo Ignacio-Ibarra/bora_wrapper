@@ -2,6 +2,17 @@ import requests
 from requests import Response
 from typing import Literal, Callable
 import copy
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+retry_strategy = Retry(
+    total=3,
+    backoff_factor=1,
+    status_forcelist=[429, 500, 502, 503, 504],
+    raise_on_status=False
+)
+
+adapter = HTTPAdapter(max_retries=retry_strategy)
 
 class BORA: 
 
@@ -18,6 +29,9 @@ class BORA:
         self.endpoint = endpoint
         self.cookies_session_url = cookies_session_url
         self.session = requests.Session()
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
+
         self.headers = copy.deepcopy(self.DEFAULT_HEADERS)
         self.headers['Origin'] = self.BASE_URL
         self.headers['Referer'] = self.BASE_URL + self.cookies_session_url
