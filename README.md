@@ -7,7 +7,7 @@ Utiliza técnicas de scraping para automatizar búsquedas avanzadas en el sitio 
 ## 🚀 Características
 
 - Inicializa una sesión con cookies para evitar bloqueos.
-- Permite realizar búsquedas avanzadas por rubro y fecha.
+- Permite realizar búsquedas avanzadas por rubro y fecha, lidiando con paginación de requests.
 - Extrae URLs de publicaciones encontradas.
 - Extensible a otras secciones del Boletín Oficial.
 
