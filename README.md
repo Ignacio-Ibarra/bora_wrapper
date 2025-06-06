@@ -37,6 +37,14 @@ pip install -r requirements.txt
 
 ## 💡 Ejemplo de uso
 
+Ejecución por consola, guarda resultado en carpeta `output/`
+
+```bash
+python run.py --start-date 01/01/2024 --end-date 29/06/2024 --rubro "CONSTITUCION SA"
+```
+
+O reutilizando el código. 
+
 ```python
 from bora import SegundaSeccion
 
