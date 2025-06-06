@@ -1,6 +1,6 @@
 from bora.core import BORA
-from typing import Callable
-from requests import RequestException
+from typing import Callable, Optional
+from requests import RequestException, Response
 import json
 
 
@@ -35,7 +35,9 @@ class BusquedaAvanzadaSeccion(BORA):
 
         try:
             # Actualizamos el payload con la página actual
-            self.data_payload['params'] = inject_page(page=pagina, key='numeroPagina', json_string=self.data_payload['params'])
+            self.data_payload['params'] = inject_page(page=pagina, 
+                                                      key='numeroPagina', 
+                                                      json_string=self.data_payload['params'])
                        
 
             response = self.make_request(
@@ -61,3 +63,43 @@ class BusquedaAvanzadaSeccion(BORA):
         except RequestException as e:
             print(f"[ERROR] Falló la petición en la página {pagina}: {e}")
             return resultados_acumulados
+
+def get_rubros(response:Response):
+    return list(map(lambda x: x['name'], response.json()))
+
+class BusquedaRubros(BORA):
+    
+    def __init__(self,
+                 seccion:str,
+                 parse_response_func:Callable = get_rubros, 
+                 request_kwargs:Optional[dict] = {}):
+        
+        self.seccion = seccion
+        self.method = 'GET'
+        self.parse_response_func = parse_response_func
+        self.request_kargs = request_kwargs
+
+        super().__init__(
+            endpoint=f"/busquedaAvanzada/{self.seccion}/rubros",
+            cookies_session_url=f"/busquedaAvanzada/{self.seccion}"
+        )
+
+    
+    def get_result(self):
+
+        
+
+        try:
+            response = self.make_request(method=self.method, 
+                                         data_payload=None, 
+                                         kwargs=self.request_kargs)
+
+            result = self.parse_response(response=response, 
+                                         response_parser_func=self.parse_response_func)
+            return result
+
+        except RequestException as e:
+            print(f"[ERROR] Falló la petición a la URL {response.url}: {e}")
+        except Exception as e: 
+            print(f"[ERROR] {e}")
+

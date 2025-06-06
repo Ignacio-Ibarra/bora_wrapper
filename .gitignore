@@ -126,3 +126,6 @@ poetry.lock
 
 # GitHub Codespaces
 .devcontainer/
+
+# Folders
+output/

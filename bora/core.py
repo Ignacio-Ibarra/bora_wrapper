@@ -1,6 +1,6 @@
 import requests
 from requests import Response
-from typing import Literal, Callable
+from typing import Literal, Callable, Optional
 import copy
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -40,7 +40,7 @@ class BORA:
     def init_session(self): 
         self.session.get(self.BASE_URL + self.cookies_session_url)
 
-    def make_request(self, method:Literal['GET','POST'], data_payload:dict, kwargs:dict)->Response:
+    def make_request(self, method:Literal['GET','POST'], data_payload:Optional[dict], kwargs:Optional[dict])->Response:
 
         self.init_session()
 
