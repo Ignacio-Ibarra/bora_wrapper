@@ -1,4 +1,4 @@
-from bora.core import BORA
+from bora.web.core import BORA
 from typing import Callable, Optional
 from requests import RequestException, Response
 import json

@@ -1,5 +1,5 @@
-from bora.busqueda import BusquedaAvanzadaSeccion
-from bora.core import BORA
+from bora.web.busqueda import BusquedaAvanzadaSeccion
+from bora.web.core import BORA
 from requests import Response
 from bs4 import BeautifulSoup
 import json
