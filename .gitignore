@@ -129,3 +129,8 @@ poetry.lock
 
 # Folders
 output/
+
+
+# uv stuff
+uv.lock
+.python-version
