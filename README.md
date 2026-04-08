@@ -1,26 +1,26 @@
 # 📰 `bora_wrapper`: Scraper del Boletín Oficial de la República Argentina
 
-Este proyecto permite consultar y extraer enlaces del Boletín Oficial de la República Argentina (BORA),
-específicamente de la Segunda Sección (Sociedades y Avisos Judiciales). 
-Utiliza técnicas de scraping para automatizar búsquedas avanzadas en el sitio oficial.
+Este proyecto permite consultar y extraer enlaces del Boletín Oficial de la República Argentina (BORA), específicamente de la Segunda Sección (Sociedades y Avisos Judiciales).
 
 ## 🚀 Características
 
 - Inicializa una sesión con cookies para evitar bloqueos.
-- Permite realizar búsquedas avanzadas por rubro y fecha, lidiando con paginación de requests.
-- Extrae URLs de publicaciones encontradas.
-- Extensible a otras secciones del Boletín Oficial.
+- Realiza búsquedas avanzadas por rubro y fecha con manejo de paginación.
+- Extrae URLs directas de las publicaciones.
+
+## ⚙️ Instalación y Configuración
+
+Este proyecto utiliza [uv](https://github.com/astral-sh/uv) para la gestión de dependencias y entornos.
+
+**1. Clonar el repo:**
+```bash
+git clone [https://github.com/Ignacio-Ibarra/bora_wrapper](https://github.com/Ignacio-Ibarra/bora_wrapper)
+cd bora_wrapper
+```
 
 ## 🗂 Estructura del proyecto
 ```
-.
-├── README.md # Este archivo
-├── main.py # Script de ejemplo para ejecutar la búsqueda
-└── bora/ # Módulo principal
-├── init.py
-├── busqueda.py # Clase base para búsquedas
-├── core.py # Clase base para manejar la sesión y requests
-└── secciones.py # Implementación concreta para la Segunda Sección
+
 ```
 
 ## ⚙️ Requisitos
@@ -96,3 +96,6 @@ Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE] para más det
 
 ## 🙌 Agradecimientos
 Boletín Oficial por su acceso público a datos.
+
+
+

@@ -1,4 +1,4 @@
-from bora import SegundaSeccion
+from bora.web import SegundaSeccion
 import os
 from datetime import datetime
 import json
