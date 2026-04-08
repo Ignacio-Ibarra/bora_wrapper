@@ -1,14 +1,15 @@
-# 📰 `bora_wrapper`: Scraper del Boletín Oficial de la República Argentina
+# `bora_wrapper`: Scraper del Boletín Oficial de la República Argentina
 
 Este proyecto permite consultar y extraer enlaces del Boletín Oficial de la República Argentina (BORA), específicamente de la Segunda Sección (Sociedades y Avisos Judiciales).
 
 ## 🚀 Características
 
-- Inicializa una sesión con cookies para evitar bloqueos.
-- Realiza búsquedas avanzadas por rubro y fecha con manejo de paginación.
-- Extrae URLs directas de las publicaciones.
+- **Gestión de Sesiones:** Manejo automático de cookies para navegar sin bloqueos.
+- **Búsqueda Avanzada:** Filtrado por rubros, fechas y manejo de paginación compleja.
+- **CLI Integrado:** Ejecución directa desde la terminal mediante `uv`.
+- **Modular:** Estructura limpia para extender a otras secciones (Primera o Tercera).
 
-## ⚙️ Instalación y Configuración
+## Instalación y Configuración
 
 Este proyecto utiliza [uv](https://github.com/astral-sh/uv) para la gestión de dependencias y entornos.
 
@@ -18,32 +19,24 @@ git clone [https://github.com/Ignacio-Ibarra/bora_wrapper](https://github.com/Ig
 cd bora_wrapper
 ```
 
-## 🗂 Estructura del proyecto
+**2. Sincronizar el entorno:**
+```bash
+# Si usas tu Python local (recomendado en entornos corporativos)
+uv venv --python python
+uv sync
 ```
 
-```
+## Uso
 
-## ⚙️ Requisitos
+## Interfaz de Línea de Comandos (CLI)
 
-- Python >= 3.9
-- `requests`
-- `beautifulsoup4`
-
-Instalación de dependencias:
+Gracias a la configuración de pyproject.toml, puedes usar el comando bora-cli (vía uv run):
 
 ```bash
-pip install -r requirements.txt
+uv run bora-cli --start-date 01/01/2024 --end-date 29/06/2024 --rubro "CONSTITUCION SA"
 ```
 
-## 💡 Ejemplo de uso
-
-Ejecución por consola, guarda resultado en carpeta `output/`
-
-```bash
-python run.py --start-date 01/01/2024 --end-date 29/06/2024 --rubro "CONSTITUCION SA"
-```
-
-O reutilizando el código. 
+## Como librería
 
 ```python
 from bora import SegundaSeccion
@@ -83,6 +76,30 @@ for link in resultados:
 # https://www.boletinoficial.gov.ar/detalleAviso/segunda/A1396560/20250528?busqueda=1
 # https://www.boletinoficial.gov.ar/detalleAviso/segunda/A1396561/20250528?busqueda=1
 ```
+
+## Estructura del Proyecto
+
+* `bora/`: Paquete principal con la lógica de scraping y sesiones.
+
+* `run.py`: Punto de entrada para la ejecución por consola.
+
+* `pyproject.toml`: Definición de dependencias y scripts del proyecto.
+
+* `output/`: Carpeta (generada automáticamente) donde se guardan los resultados.
+
+## Requisitos
+
+- Python >= 3.9
+- `requests`
+- `beautifulsoup4`
+
+## Desarrollo y Contribución
+
+Si quieres agregar soporte para nuevas secciones:
+
+* Revisa `bora/core.py` para entender la base de las peticiones.
+
+* Implementa la lógica específica en un nuevo archivo dentro de bora/.
 
 ## 📌 Pendientes / Ideas futuras
 * Agregar soporte para otras secciones (Primera, Tercera, Suplementos).
