@@ -64,7 +64,7 @@ class BORA:
     def init_session(self):
         self.session.get(self.BASE_URL + self.cookies_session_url, timeout=15)
 
-    def make_request(self, method: Literal['GET', 'POST'], data_payload: Optional[dict] = None, **kwargs) -> Response:
+    def make_request(self, method: Literal['GET', 'POST'], data_payload: Optional[dict] = None, **kwargs: Optional[dict]) -> Response:
         if not self.session.cookies:
             self.init_session()
 
