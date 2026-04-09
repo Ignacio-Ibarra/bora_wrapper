@@ -92,7 +92,7 @@ class BusquedaRubros(BORA):
         try:
             response = self.make_request(method=self.method, 
                                          data_payload=None, 
-                                         kwargs=self.request_kargs)
+                                         **self.request_kargs)
 
             result = self.parse_response(response=response, 
                                          response_parser_func=self.parse_response_func)
