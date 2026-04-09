@@ -21,7 +21,7 @@ retry_strategy = Retry(
 adapter = HTTPAdapter(max_retries=retry_strategy)
 
 class BORA:
-    BASE_URL = "https://www.boletinoficial.gov.ar"
+    BASE_URL = "https://www.boletinoficial.gob.ar"
     DEFAULT_HEADERS = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
         "Accept": "application/json, text/javascript, */*; q=0.01",
