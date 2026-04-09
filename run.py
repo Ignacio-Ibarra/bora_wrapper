@@ -23,15 +23,18 @@ def main():
     for link in links:
         print(link)
 
+    output_folder = "output"
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Parse dates from dd/mm/YYYY to YYYYmmdd
+    start_date_parsed = datetime.strptime(start_date, "%d/%m/%Y").strftime("%Y%m%d")
+    end_date_parsed = datetime.strptime(end_date, "%d/%m/%Y").strftime("%Y%m%d")
+    rubros_str = "_".join(rubros)
+
     n_links = len(links)
     if n_links > 0:
         
-        output_folder = "output"
-        
-        # Parse dates from dd/mm/YYYY to YYYYmmdd
-        start_date_parsed = datetime.strptime(start_date, "%d/%m/%Y").strftime("%Y%m%d")
-        end_date_parsed = datetime.strptime(end_date, "%d/%m/%Y").strftime("%Y%m%d")
-        rubros_str = "_".join(rubros)
+                     
         output_file = f"links_{rubros_str}_{start_date_parsed}_{end_date_parsed}.json"
 
         data = {'fecha_desde':start_date,
@@ -39,12 +42,12 @@ def main():
                 'rubro':rubros,
                 'links':links}
         
-        os.makedirs(output_folder, exist_ok=True)
+        
         path = os.path.join(output_folder, output_file)    
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
     else:
-        path = os.path.join(output_folder, "busqueda_vacia.txt")
+        path = f"{output_folder}/busqueda_vacia.txt"
         input_string = f'rubro:{"|".join(rubros)},{start_date_parsed},{end_date_parsed}'
         with open(path, "a", encoding="utf-8") as f:
             f.write(input_string + "\n")

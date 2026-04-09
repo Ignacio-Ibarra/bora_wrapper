@@ -1,12 +1,18 @@
+import os
 import requests
+import copy
+import base64
 from requests import Response
 from typing import Literal, Callable, Optional
-import copy
 from requests.adapters import HTTPAdapter
+from requests.auth import HTTPProxyAuth
 from urllib3.util.retry import Retry
+from dotenv import load_dotenv
+
+load_dotenv()
 
 retry_strategy = Retry(
-    total=3,
+    total=5,
     backoff_factor=1,
     status_forcelist=[429, 500, 502, 503, 504],
     raise_on_status=False
@@ -14,8 +20,7 @@ retry_strategy = Retry(
 
 adapter = HTTPAdapter(max_retries=retry_strategy)
 
-class BORA: 
-
+class BORA:
     BASE_URL = "https://www.boletinoficial.gov.ar"
     DEFAULT_HEADERS = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
@@ -24,37 +29,56 @@ class BORA:
         "X-Requested-With": "XMLHttpRequest"
     }
 
-    def __init__(self, endpoint:str, cookies_session_url:str):
-        
+    def __init__(self, endpoint: str, cookies_session_url: str):
         self.endpoint = endpoint
         self.cookies_session_url = cookies_session_url
         self.session = requests.Session()
+        # self.session.trust_env = False
+        
         self.session.mount("https://", adapter)
         self.session.mount("http://", adapter)
 
+        # self._set_proxy_config()
+        
         self.headers = copy.deepcopy(self.DEFAULT_HEADERS)
         self.headers['Origin'] = self.BASE_URL
         self.headers['Referer'] = self.BASE_URL + self.cookies_session_url
         self.session.headers.update(self.headers)
 
-    def init_session(self): 
-        self.session.get(self.BASE_URL + self.cookies_session_url)
+    def _set_proxy_config(self):
+        proxy_host = os.getenv("PROXY_HOST")
+        proxy_port = os.getenv("PROXY_PORT")
+        proxy_user = os.getenv("PROXY_USER")
+        proxy_pass = os.getenv("PROXY_PASS")
 
-    def make_request(self, method:Literal['GET','POST'], data_payload:Optional[dict], kwargs:Optional[dict])->Response:
+        if proxy_host and proxy_port:
+            proxy_url = f"http://{proxy_host}:{proxy_port}"
+            self.session.proxies = {
+                "http": proxy_url,
+                "https": proxy_url,
+            }
 
-        self.init_session()
+            if proxy_user and proxy_pass:
+                self.session.proxy_auth = HTTPProxyAuth(proxy_user, proxy_pass)
 
-        if method == "GET": 
-            response = self.session.get(self.BASE_URL + self.endpoint, params=data_payload, **kwargs)
-            
-        elif method == "POST": 
-            response = self.session.post(self.BASE_URL + self.endpoint, data=data_payload, **kwargs)
-        else: 
-            raise(ValueError("'method' must be one of ['GET','POST']"))
+    def init_session(self):
+        self.session.get(self.BASE_URL + self.cookies_session_url, timeout=15)
+
+    def make_request(self, method: Literal['GET', 'POST'], data_payload: Optional[dict] = None, **kwargs) -> Response:
+        if not self.session.cookies:
+            self.init_session()
+
+        url = self.BASE_URL + self.endpoint
+
+        if method == "GET":
+            response = self.session.get(url, params=data_payload, **kwargs)
+        elif method == "POST":
+            response = self.session.post(url, data=data_payload, **kwargs)
+        else:
+            raise ValueError("'method' must be one of ['GET','POST']")
         
         response.raise_for_status()
-
         return response
     
-    def parse_response(self, response:Response, response_parser_func:Callable):
+    def parse_response(self, response: Response, response_parser_func: Callable):
         return response_parser_func(response)
