@@ -70,9 +70,6 @@ class BORA:
 
         url = self.BASE_URL + self.endpoint
 
-        if not kwargs:
-            kwargs = {}
-
         if method == "GET":
             response = self.session.get(url, params=data_payload, **kwargs)
         elif method == "POST":
