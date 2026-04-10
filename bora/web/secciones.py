@@ -56,7 +56,7 @@ class SegundaSeccion(BusquedaAvanzadaSeccion):
             "array_volver": "[]"
         }
 
-        @staticmethod
+        
         def parse_response(response: Response):
             html = response.json()['content']['html']
             soup = BeautifulSoup(html, "html.parser")

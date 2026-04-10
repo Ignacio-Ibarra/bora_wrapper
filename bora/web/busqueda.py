@@ -43,7 +43,7 @@ class BusquedaAvanzadaSeccion(BORA):
             response = self.make_request(
                 method=self.method,
                 data_payload=self.data_payload,
-                kwargs=self.request_kwargs
+                **self.request_kwargs
             )
 
             # Parseamos resultados y los acumulamos
@@ -77,7 +77,7 @@ class BusquedaRubros(BORA):
         self.seccion = seccion
         self.method = 'GET'
         self.parse_response_func = parse_response_func
-        self.request_kargs = request_kwargs
+        self.request_kwargs = request_kwargs
 
         super().__init__(
             endpoint=f"/busquedaAvanzada/{self.seccion}/rubros",
@@ -92,7 +92,7 @@ class BusquedaRubros(BORA):
         try:
             response = self.make_request(method=self.method, 
                                          data_payload=None, 
-                                         **self.request_kargs)
+                                         **self.request_kwargs)
 
             result = self.parse_response(response=response, 
                                          response_parser_func=self.parse_response_func)
