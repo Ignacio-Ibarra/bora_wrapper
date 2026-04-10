@@ -129,6 +129,7 @@ poetry.lock
 
 # Folders
 output/
+job_logs/
 
 
 # uv stuff
