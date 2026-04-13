@@ -1,11 +1,9 @@
 import os
 import requests
 import copy
-import base64
 from requests import Response
 from typing import Literal, Callable, Optional
 from requests.adapters import HTTPAdapter
-from requests.auth import HTTPProxyAuth
 from urllib3.util.retry import Retry
 from dotenv import load_dotenv
 
@@ -20,6 +18,8 @@ retry_strategy = Retry(
 
 adapter = HTTPAdapter(max_retries=retry_strategy)
 
+
+
 class BORA:
     BASE_URL = "https://www.boletinoficial.gob.ar"
     DEFAULT_HEADERS = {
@@ -33,12 +33,11 @@ class BORA:
         self.endpoint = endpoint
         self.cookies_session_url = cookies_session_url
         self.session = requests.Session()
-        # self.session.trust_env = False
         
         self.session.mount("https://", adapter)
         self.session.mount("http://", adapter)
 
-        # self._set_proxy_config()
+        self._set_proxy_config()
         
         self.headers = copy.deepcopy(self.DEFAULT_HEADERS)
         self.headers['Origin'] = self.BASE_URL
@@ -51,16 +50,10 @@ class BORA:
         proxy_user = os.getenv("PROXY_USER")
         proxy_pass = os.getenv("PROXY_PASS")
 
-        if proxy_host and proxy_port:
-            proxy_url = f"http://{proxy_host}:{proxy_port}"
-            self.session.proxies = {
-                "http": proxy_url,
-                "https": proxy_url,
-            }
+        os.environ['HTTP_PROXY']= f"http://{proxy_user}:{proxy_pass}@{proxy_host}:{proxy_port}" 
+        os.environ['HTTPS_PROXY'] = f"http://{proxy_user}:{proxy_pass}@{proxy_host}:{proxy_port}"
 
-            if proxy_user and proxy_pass:
-                self.session.proxy_auth = HTTPProxyAuth(proxy_user, proxy_pass)
-
+        
     def init_session(self):
         self.session.get(self.BASE_URL + self.cookies_session_url, timeout=15)
 
