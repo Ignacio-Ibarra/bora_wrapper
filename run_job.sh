@@ -26,7 +26,11 @@ echo "===== START $(date '+%Y-%m-%d %H:%M:%S') =====" >> "$LOG_FILE"
 # Ejecutar job
 /home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubro "CONSTITUCION SA" >> "$LOG_FILE" 2>&1
 
+sleep 5
+
 /home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubro "CONTRATO SRL" >> "$LOG_FILE" 2>&1
+
+sleep 5
 
 /home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubro "CONSTITUCION SAS" >> "$LOG_FILE" 2>&1
 
