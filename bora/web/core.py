@@ -1,11 +1,9 @@
 import os
 import requests
 import copy
-import base64
 from requests import Response
 from typing import Literal, Callable, Optional
 from requests.adapters import HTTPAdapter
-from requests.auth import HTTPProxyAuth
 from urllib3.util.retry import Retry
 from dotenv import load_dotenv
 
