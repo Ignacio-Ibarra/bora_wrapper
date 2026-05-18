@@ -1,10 +1,10 @@
 import os
-import requests
 import copy
+import requests
 from requests import Response
-from typing import Literal, Callable, Optional
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from typing import Literal, Callable, Optional
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,51 +13,66 @@ retry_strategy = Retry(
     total=5,
     backoff_factor=1,
     status_forcelist=[429, 500, 502, 503, 504],
-    raise_on_status=False
+    raise_on_status=False,
 )
 
 adapter = HTTPAdapter(max_retries=retry_strategy)
 
 
-
 class BORA:
     BASE_URL = "https://www.boletinoficial.gob.ar"
     DEFAULT_HEADERS = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+        ),
         "Accept": "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "X-Requested-With": "XMLHttpRequest"
+        "X-Requested-With": "XMLHttpRequest",
     }
 
     def __init__(self, endpoint: str, cookies_session_url: str):
         self.endpoint = endpoint
         self.cookies_session_url = cookies_session_url
         self.session = requests.Session()
-        
+
         self.session.mount("https://", adapter)
         self.session.mount("http://", adapter)
 
         self._set_proxy_config()
-        
+
         self.headers = copy.deepcopy(self.DEFAULT_HEADERS)
-        self.headers['Origin'] = self.BASE_URL
-        self.headers['Referer'] = self.BASE_URL + self.cookies_session_url
+        self.headers["Origin"] = self.BASE_URL
+        self.headers["Referer"] = self.BASE_URL + self.cookies_session_url
         self.session.headers.update(self.headers)
 
     def _set_proxy_config(self):
+        """Configura el proxy a partir de variables de entorno.
+
+        Solo setea HTTP(S)_PROXY si están definidas las cuatro variables
+        PROXY_HOST/PORT/USER/PASS, para evitar generar URLs con 'None'.
+        """
         proxy_host = os.getenv("PROXY_HOST")
         proxy_port = os.getenv("PROXY_PORT")
         proxy_user = os.getenv("PROXY_USER")
         proxy_pass = os.getenv("PROXY_PASS")
 
-        os.environ['HTTP_PROXY']= f"http://{proxy_user}:{proxy_pass}@{proxy_host}:{proxy_port}" 
-        os.environ['HTTPS_PROXY'] = f"http://{proxy_user}:{proxy_pass}@{proxy_host}:{proxy_port}"
+        if not all([proxy_host, proxy_port, proxy_user, proxy_pass]):
+            return
 
-        
+        proxy_url = f"http://{proxy_user}:{proxy_pass}@{proxy_host}:{proxy_port}"
+        os.environ["HTTP_PROXY"] = proxy_url
+        os.environ["HTTPS_PROXY"] = proxy_url
+
     def init_session(self):
         self.session.get(self.BASE_URL + self.cookies_session_url, timeout=15)
 
-    def make_request(self, method: Literal['GET', 'POST'], data_payload: Optional[dict] = None, **kwargs) -> Response:
+    def make_request(
+        self,
+        method: Literal["GET", "POST"],
+        data_payload: Optional[dict] = None,
+        **kwargs,
+    ) -> Response:
         if not self.session.cookies:
             self.init_session()
 
@@ -69,9 +84,9 @@ class BORA:
             response = self.session.post(url, data=data_payload, **kwargs)
         else:
             raise ValueError("'method' must be one of ['GET','POST']")
-        
+
         response.raise_for_status()
         return response
-    
+
     def parse_response(self, response: Response, response_parser_func: Callable):
         return response_parser_func(response)

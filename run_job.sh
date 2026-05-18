@@ -10,12 +10,12 @@ LOG_DIR="$BASE_DIR/job_logs"
 LOG_FILE="$LOG_DIR/bora_job_$(date +%Y%m%d).log"
 CURRENT_DATE="$(date +%d/%m/%Y)"
 
+# Asegurar directorio de logs
+mkdir -p "$LOG_DIR"
+
 echo "USER: $(whoami)" >> "$LOG_FILE"
 echo "PATH: $PATH" >> "$LOG_FILE"
 echo "PWD: $(pwd)" >> "$LOG_FILE"
-
-# Asegurar directorio de logs
-mkdir -p "$LOG_DIR"
 
 # Ir al directorio del proyecto
 cd "$BASE_DIR" || exit 1
@@ -24,15 +24,15 @@ cd "$BASE_DIR" || exit 1
 echo "===== START $(date '+%Y-%m-%d %H:%M:%S') =====" >> "$LOG_FILE"
 
 # Ejecutar job
-/home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubro "CONSTITUCION SA" >> "$LOG_FILE" 2>&1
+/home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubros "CONSTITUCION SA" >> "$LOG_FILE" 2>&1
 
 sleep 5
 
-/home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubro "CONTRATO SRL" >> "$LOG_FILE" 2>&1
+/home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubros "CONTRATO SRL" >> "$LOG_FILE" 2>&1
 
 sleep 5
 
-/home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubro "CONSTITUCION SAS" >> "$LOG_FILE" 2>&1
+/home/iibarra/.local/bin/uv run bora-cli --start-date "$CURRENT_DATE" --end-date "$CURRENT_DATE" --rubros "CONSTITUCION SAS" >> "$LOG_FILE" 2>&1
 
 # Guardar codigo de salida
 EXIT_CODE=$?

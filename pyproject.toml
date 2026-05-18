@@ -1,5 +1,9 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
-name = "bora"
+name = "bora-wrapper"
 version = "0.1.0"
 description = "Cliente Python para interactuar con el Boletín Oficial de la República Argentina (BORA)."
 readme = "README.md"
@@ -19,16 +23,17 @@ classifiers = [
 ]
 
 [project.scripts]
-bora-cli = "run:main"  # Esto permite ejecutar 'uv run bora-cli'
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+bora-cli = "bora_wrapper.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["bora", "run.py"]
+packages = ["bora_wrapper"]
 
 [dependency-groups]
 dev = [
     "ipykernel>=6.31.0",
+    "pytest",
+    "pytest-cov",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
