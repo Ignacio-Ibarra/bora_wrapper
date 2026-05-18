@@ -1,6 +1,6 @@
 import json
 
-from bora_wrapper.web.busqueda import inject_page
+from bora_wrapper.busqueda import inject_page
 
 
 def test_inject_page_replaces_existing_key():

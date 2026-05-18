@@ -1,6 +1,6 @@
 # bora_wrapper
 
-Cliente Python para consultar y extraer enlaces y textos del **Boletín Oficial de la República Argentina (BORA)**. Actualmente soporta la búsqueda avanzada de la Segunda Sección (Sociedades y Avisos Judiciales) y la descarga del texto plano de avisos individuales.
+Cliente Python para consultar y extraer enlaces de avisos del **Boletín Oficial de la República Argentina (BORA)**. Actualmente soporta la búsqueda avanzada de la Segunda Sección (Sociedades y Avisos Judiciales).
 
 ---
 
@@ -46,7 +46,7 @@ Si las cuatro variables no están definidas, el wrapper se conecta sin proxy.
 ### Como CLI
 
 ```bash
-uv run bora-cli --start-date 01/01/2024 --end-date 29/06/2024 --rubros "CONSTITUCION SA"
+uv run bora-cli --start-date 28/05/2025 --end-date 28/05/2025 --rubros "CONSTITUCION SA"
 ```
 
 | Flag | Descripción |
@@ -86,30 +86,17 @@ rubros = BusquedaRubros(seccion="segunda").get_result()
 print(rubros)
 ```
 
-#### Descarga del texto de un aviso
-
-```python
-from bora_wrapper import TextDownloader
-
-downloader = TextDownloader(seccion="segunda", id_aviso="A1396533", date="20250528")
-texto = downloader.get_text()
-print(texto)
-```
-
 ---
 
 ## Estructura del proyecto
 
 ```
 bora_wrapper/
-├── __init__.py             # API pública: BORA, SegundaSeccion, BusquedaRubros, TextDownloader
-├── cli.py                  # Entry point del comando bora-cli
-├── web/
-│   ├── core.py             # BORA — cliente HTTP base (sesión, cookies, retries, proxy)
-│   ├── busqueda.py         # BusquedaAvanzadaSeccion, BusquedaRubros
-│   └── secciones.py        # SegundaSeccion
-└── texts/
-    └── download.py         # TextDownloader
+├── __init__.py         # API pública
+├── cli.py              # Entry point del comando bora-cli
+├── core.py             # BORA — cliente HTTP base
+├── busqueda.py         # BusquedaAvanzadaSeccion, BusquedaRubros
+└── secciones.py        # SegundaSeccion
 ```
 
 ---
@@ -131,7 +118,7 @@ uv run pytest --run-online
 ## Pendientes / Ideas futuras
 
 - Agregar soporte para otras secciones (Primera, Tercera, Suplementos).
-- Exportar resultados a CSV adicional al JSON.
+- Soporte de exportación a CSV además de JSON.
 - Automatizar búsquedas diarias.
 
 ---

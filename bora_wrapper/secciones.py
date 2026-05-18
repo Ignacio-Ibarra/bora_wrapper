@@ -4,8 +4,8 @@ import json
 from bs4 import BeautifulSoup
 from requests import Response
 
-from bora_wrapper.web.busqueda import BusquedaAvanzadaSeccion
-from bora_wrapper.web.core import BORA
+from bora_wrapper.busqueda import BusquedaAvanzadaSeccion
+from bora_wrapper.core import BORA
 
 
 class SegundaSeccion(BusquedaAvanzadaSeccion):

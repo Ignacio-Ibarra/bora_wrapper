@@ -3,7 +3,7 @@ from typing import Callable, Optional
 
 from requests import RequestException, Response
 
-from bora_wrapper.web.core import BORA
+from bora_wrapper.core import BORA
 
 
 def inject_page(page: int, key: str, json_string: str) -> str:
