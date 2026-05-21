@@ -52,10 +52,10 @@ class BORA:
         Solo setea HTTP(S)_PROXY si están definidas las cuatro variables
         PROXY_HOST/PORT/USER/PASS, para evitar generar URLs con 'None'.
         """
-        proxy_host = os.getenv("PROXY_HOST")
-        proxy_port = os.getenv("PROXY_PORT")
-        proxy_user = os.getenv("PROXY_USER")
-        proxy_pass = os.getenv("PROXY_PASS")
+        proxy_host = os.getenv("BORA_PROXY_HOST")
+        proxy_port = os.getenv("BORA_PROXY_PORT")
+        proxy_user = os.getenv("BORA_PROXY_USER")
+        proxy_pass = os.getenv("BORA_PROXY_PASS")
 
         if not all([proxy_host, proxy_port, proxy_user, proxy_pass]):
             return
